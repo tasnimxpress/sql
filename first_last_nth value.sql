@@ -4,15 +4,29 @@
 --Display AlbumId, album name,  bytes and track name
 
 
-SELECT a.AlbumId , a.Title , t.Name, t.Bytes , 
-first_value(t.Name) 
-OVER(PARTITION BY Title ORDER BY Bytes DESC) AS Highest_byte,
-last_value(t.Name) 
-OVER(PARTITION BY a.Title ORDER BY t.Bytes DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS lowest_byte,
-nth_value(t.Name, 2) OVER(PARTITION BY a.Title ORDER BY t.Bytes DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS second_highest
-FROM Track t 
+SELECT
+	a.AlbumId ,
+	a.Title ,
+	t.Name,
+	t.Bytes ,
+	first_value(t.Name) 
+OVER(PARTITION BY Title
+ORDER BY
+	Bytes DESC) AS Highest_byte,
+	last_value(t.Name) 
+OVER(PARTITION BY a.Title
+ORDER BY
+	t.Bytes DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS lowest_byte,
+	nth_value(t.Name,
+	2) OVER(PARTITION BY a.Title
+ORDER BY
+	t.Bytes DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS second_highest
+FROM
+	Track t
 JOIN Album a 
-ON t.AlbumId = a.AlbumId 
-ORDER BY a.Title 
+ON
+	t.AlbumId = a.AlbumId
+ORDER BY
+	a.Title
 
 

@@ -1,4 +1,5 @@
 -- find the previous byte size, trailing track size, and difference with previous track size
+
 WITH temp as
 (
 select
