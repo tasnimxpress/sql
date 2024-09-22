@@ -37,8 +37,7 @@ where
 		order_details od))
 select
 	c.*,
-	cabs.id,
-	cabs.state,
+	cabs.id as cab_id,
 	cabs.seater,
 	cabs.charge,
 	cabs.city
