@@ -61,9 +61,9 @@ group by
 order by ui.full_name
 limit 10 ;
 
-select *
-from ecrm.contacts
-limit 10
+--select *
+--from ecrm.contacts
+--limit 10
 
 --select * 
 --from ecrm.user_infos ui 
