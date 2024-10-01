@@ -42,7 +42,7 @@ where
 	c.campaign_id = 60
 	and cast(c.contact_date as date) = cast('2024-09-05' as date)
 group by
-	c.campaign_id ,
+	c.campaign_id , 
 	c3.name ,
 	c.contact_date ,
 	o.name , 
