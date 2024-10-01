@@ -1,4 +1,7 @@
-select
+select 
+	count(*) OVER() AS total_rows ,
+	csdm.contact_id ,
+	csdm.contact_id ,
 	c.campaign_id ,
 	c3.name as campaign_name,
 	c.contact_date ,
@@ -58,14 +61,4 @@ group by
 	c."start" ,
 	c."end" ,
 	c2.dob
-order by ui.full_name
-limit 10 ;
-
---select *
---from ecrm.contacts
---limit 10
-
---select * 
---from ecrm.user_infos ui 
---order by id
---limit 10
+order by ui.full_name ;

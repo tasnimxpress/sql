@@ -22,7 +22,7 @@ select
 	cast(c."end" as time) - cast(c."start" as time) as duration
 from
 	ecrm.contacts c
-join contact_survey_data_maps csdm 
+join ecrm.contact_survey_data_maps csdm 
 	on 
 		c.id = csdm.contact_id 
 join ecrm.user_infos ui 
