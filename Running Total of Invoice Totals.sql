@@ -4,3 +4,5 @@
 SELECT i.InvoiceId , i.InvoiceDate , 
 SUM(i.Total) OVER(ORDER BY i.InvoiceDate ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Running_sum
 FROM Invoice i 
+
+
