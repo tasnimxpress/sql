@@ -1,5 +1,5 @@
-	select count(c.id)
-	from
+select count(c.id)
+ from
 		ecrm.contacts c
 	join ecrm.contact_survey_data_maps csdm 
 on 
@@ -18,28 +18,7 @@ on
 	left join ecrm.proximity_report pr 
 on
 		c.campaign_id = pr.campaign_id
-	where
-		
-		
-	group by
-		c.campaign_id ,
-		csdm.contact_id ,
-		csdm.contact_date ,
-		ui.full_name ,
-		o.name ,
-		c.contacted_br ,
-		c2.name,
-		pr.campaign_name ,
-		c.contact_no ,
-		c2."name" ,
-		c2.fathers_name ,
-		c2.address ,
-		c.product ,
-		c.giveable ,
-		c."start" ,
-		c."end" ,
-		c2.dob) a ;
-
+	
 
 
 select
@@ -69,16 +48,16 @@ from
 join ecrm.contact_survey_data_maps csdm 
 on
 	csdm.contact_id = c.id
-left join ecrm.user_infos ui 
+join ecrm.user_infos ui 
 on
 	c.user_id = ui.user_id
-left join ecrm.outlets o
+join ecrm.outlets o
 on
 	c.location_id = o.location_id
-left join ecrm.consumers c2 
+join ecrm.consumers c2 
 on
 	c.consumer_id = c2.id
-left join ecrm.proximity_report pr 
+join ecrm.proximity_report pr 
 on
 	c.campaign_id = pr.campaign_id
 where
