@@ -38,7 +38,7 @@ base as
 	l7.name as region
 from
 	main t
-join ecrm.locations l1 on
+left join ecrm.locations l1 on
 	t.location_id = l1.id
 left join ecrm.locations l2 on
 	l2.id = l1.parent
@@ -52,24 +52,19 @@ left join ecrm.locations l6 on
 	l6.id = l5.parent
 left join ecrm.locations l7 on
 	l7.id = l6.parent)
-select *
+select base.*,
+--from base ;
+max(ta.duration_from_start_survey) over(partition by base.id) as max,
+case
+	when max(ta.duration_from_start_survey) over(partition by base.id) > '00:01:30' then 'GREEN'
+	else 'RED'
+end as duration_category
 from base
-limit 5
---select b.id, 
---b.contacted_br, 
---b.full_name, 
---b.official_contact,
---b.contact_duration_category,
---count(b.id) over(partition by b.user_id) as total_contact_count,
---avg(b.duration) over(partition by b.user_id) as average_duration,
---count()
---case 
---	when b.contact_duration_category = 'GREEN' then count(b.contact_duration_category) 
---end total_green,
---case 
---	when b.contact_duration_category = 'RED' then count(b.contact_duration_category) 
---end total_red
---from base b
+left join ecrm.tap_analyses ta 
+on base.id = ta.contact_id 
+where ta.block_id = 'submit_Btn'
+order by duration asc;
+
 
 
 

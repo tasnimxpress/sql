@@ -4,6 +4,7 @@ from ecrm.contacts c
 join ecrm.tap_analyses ta 
 on c.id = ta.contact_id
 where c.campaign_id = 60
+and ta.block_id = 'submit_Btn'
 and cast("start" as time) > cast("end" as time)
 and c.id in 
 (4842194,
@@ -62,13 +63,14 @@ select
 	max(ta.duration_from_start_survey),
 	ta.survey_start_time
 from ecrm.contacts c
-join ecrm.tap_analyses ta 
+left join ecrm.tap_analyses ta 
 on c.id = ta.contact_id
 where
 	c.campaign_id = 60
 	--and cast("start" as time) > cast("end" as time)
 	and c.id = 4719613
 	and c.user_id = 27224
+	and ta.block_id = 'submit_Btn'
 group by
 	c.id,
 	c."start" ,
@@ -87,6 +89,7 @@ order by
 
 select *
 from ecrm.tap_analyses ta
-where contact_id = 4722103
+where contact_id = 4719613
 limit 5
+
 
