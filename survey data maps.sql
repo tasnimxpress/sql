@@ -6,7 +6,7 @@ where c.campaign_id = 77
 and c.id = 5236963
 and csdm.contact_date = '2024-10-06';
 
--------------p
+-------------pivot tavle
 CREATE EXTENSION IF NOT EXISTS tablefunc;
 SELECT *
 FROM crosstab(
