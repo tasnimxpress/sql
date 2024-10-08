@@ -131,7 +131,7 @@ $$
 	try_new_cig_again_deluxe text,
 	bongo_or_tea text,
 	use_smartphone text)
-) -- return count 8301
+), -- return count 8301
 --select * from survey_map; 
 -- organize column as required and final output
 main as
@@ -179,7 +179,7 @@ select
 	bongo_or_tea,
 	use_smartphone
 from
-	user_and_loc_details uld
+	 user_and_loc_details uld
 join survey_map
 on
 	uld."Contact ID" = survey_map.id
@@ -193,7 +193,8 @@ join ecrm.sku_items si2
 on 
 	"Secondary Brand" = si2.id)
 select *
-from main;
+from main
+where "Region" is null;
 
 
 
@@ -252,4 +253,26 @@ select *
 from ecrm.contacts c 
 join ecrm.consumers c2 
 on c.consumer_id = c2.id
-where c.id = 5247701
+where c.id = 5247701 ;
+
+--- check region null
+select c.id,
+l1.name as outlet,
+l2.name as cluster,
+l3.name as point,
+l4.name as route,
+l5.name as territory,
+l6.name as area,
+l7.name as region,
+l6.type as l1_type,
+l7.type as l7_type
+from ecrm.contacts c
+join ecrm.locations l1 
+on c.location_id = l1.id 
+left join ecrm.locations l2 on l2.id = l1.parent
+left join ecrm.locations l3 on l3.id = l2.parent
+left join ecrm.locations l4 on l4.id = l3.parent
+left join ecrm.locations l5 on l5.id = l4.parent 
+left join ecrm.locations l6 on l6.id = l5.parent
+left join ecrm.locations l7 on l7.id = l6.parent
+where c.id = 5245788;
