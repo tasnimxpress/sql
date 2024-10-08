@@ -22,7 +22,7 @@ WITH tbl AS (
     LEFT JOIN ecrm.locations l6 ON l6.id = l5.parent
     LEFT JOIN ecrm.locations l7 ON l7.id = l6.parent
     WHERE c.campaign_id = 77
-    and l7.active IS NOT NULL
+    AND l7.active IS NOT NULL
 --    AND c.contact_date <= '2024-10-08'
 		AND c."start"::time <= '16:45:00' ---CURRENT_TIME
     -- AND c.user_id = 715  -- Uncomment to filter by specific user ID
