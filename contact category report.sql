@@ -23,15 +23,15 @@ WITH tbl AS (
     LEFT JOIN ecrm.locations l7 ON l7.id = l6.parent
     WHERE c.campaign_id = 77
     AND l7.active IS NOT NULL
---    AND c.contact_date <= '2024-10-08'
-		AND c."start"::time <= '16:45:00' ---CURRENT_TIME
-    -- AND c.user_id = 715  -- Uncomment to filter by specific user ID
+--  AND c.contact_date <= '2024-10-08'
+	AND c."start"::time <= '16:45:00' ---CURRENT_TIME
+    AND c.user_id = 715  -- Uncomment to filter by specific user ID
 ),
 --select * from tbl ;
 -- Step 2: base - Calculate average duration and categorize each contact's duration
 base AS (
     SELECT 
-        id,
+    	id,
         user_id,
         username,
         "start",
@@ -42,6 +42,7 @@ base AS (
         territory,
         area,
         region,
+        count(id) over (partition by user_id) total_contact_by_user,
         -- Categorize duration based on predefined benchmark:
         -- Red:    Contact Duration > 12 min or < 7 min
         -- Amber:  10 min < Contact Duration <= 12 min
@@ -80,9 +81,10 @@ detail AS (
             WHEN avg_duration > '00:12:00' OR avg_duration < '00:07:00' THEN 'Red'
             WHEN avg_duration > '00:10:00' AND avg_duration < '00:12:00' THEN 'Amber'
             ELSE 'Green'
-        END AS avg_duration_category
+        END AS avg_duration_category,
+        total_contact_by_user
     FROM base
-    GROUP BY id, user_id, username, point, territory, area, region, "start", "end", contact_date, duration, duration_category, avg_duration
+    GROUP BY id, user_id, username, point, territory, area, region, "start", "end", contact_date, duration, duration_category, avg_duration, total_contact_by_user
 ),
 --select * from detail ;
 -- Step 4: main - Summarize data by calculating total counts for each duration category
@@ -99,7 +101,8 @@ main AS (
         -- Count total number of 'Red', 'Green', and 'Amber' contacts per user
         COUNT(red_count) OVER (PARTITION BY user_id) AS total_red,
         COUNT(green_count) OVER (PARTITION BY user_id) AS total_green,
-        COUNT(amber_count) OVER (PARTITION BY user_id) AS total_amber
+        COUNT(amber_count) OVER (PARTITION BY user_id) AS total_amber,
+        total_contact_by_user
     FROM detail
 ),
 --select * from main ;
@@ -107,7 +110,7 @@ main AS (
 summary AS (
     SELECT *
     FROM main
-    GROUP BY user_id, username, point, territory, area, region, avg_duration, avg_duration_category, total_red, total_green, total_amber
+    GROUP BY user_id, username, point, territory, area, region, avg_duration, avg_duration_category, total_red, total_green, total_amber, total_contact_by_user
 )
 --select * from summary ;
 -- Filter query (if needed)
