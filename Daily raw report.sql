@@ -193,8 +193,8 @@ join ecrm.sku_items si2
 on 
 	"Secondary Brand" = si2.id)
 select *
-from main
-where "Region" is null;
+from main;
+--where "Region" is null;
 
 
 

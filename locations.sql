@@ -85,7 +85,7 @@ left join ecrm.locations l4 on l4.id = l3.parent
 left join ecrm.locations l5 on l5.id = l4.parent 
 left join ecrm.locations l6 on l6.id = l5.parent
 left join ecrm.locations l7 on l7.id = l6.parent
-where l1.id = 252470 ;
+--where l1.id = 252470 ;
 
 
 

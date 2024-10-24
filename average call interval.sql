@@ -20,7 +20,7 @@ summary as
 --   select * from summary;
    --final step: Get average call interval
 select 
-	avg(interval)::time  as avg_interval
+	EXTRACT (epoch FROM avg(interval))  as avg_interval
 from summary;
 
 
@@ -40,5 +40,3 @@ and user_id = 18252)
 select
 avg(interval)::time as avg_interval
 from main ;
-
-extract EPOCH 
